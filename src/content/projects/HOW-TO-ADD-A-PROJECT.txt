@@ -1,0 +1,23 @@
+A client project = one Markdown file in this folder, e.g. sharma-sweets.md (the file name becomes /work/sharma-sweets/),
+and its screenshot in public/work/ (a .webp about 1366 x 800). Only with the client's agreement.
+
+---
+client: Sharma Sweets
+title: Shop website
+summary: A fast, mobile-first website with the menu, photos, location and a WhatsApp order button.
+url: https://example.com/
+kind: Website
+delivered: 2026-11-30
+place: Parbatsar, Rajasthan
+built:
+  - Design
+  - Website
+  - Hosting
+image:
+  src: /work/sharma-sweets.webp
+  alt: The home page of the Sharma Sweets website
+  width: 1366
+  height: 800
+---
+
+A few lines on what the client needed and what we made. Only what is true.

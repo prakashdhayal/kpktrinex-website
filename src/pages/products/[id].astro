@@ -1,0 +1,82 @@
+---
+import { getCollection, render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import ContactBand from '../../components/ContactBand.astro';
+import { COMPANY } from '../../data/company';
+
+export async function getStaticPaths() {
+  return (await getCollection('products')).map((product) => ({ params: { id: product.id }, props: { product } }));
+}
+
+interface Props {
+  product: CollectionEntry<'products'>;
+}
+
+const { product } = Astro.props;
+const { name, tagline, summary, url, audience, highlights, screens } = product.data;
+const { Content } = await render(product);
+
+const software = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name,
+  description: summary,
+  url,
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Any (web browser)',
+  publisher: { '@id': `${COMPANY.site}/#organization` },
+};
+---
+
+<Base title={name} description={`${name}: ${tagline}. ${summary}`} jsonLd={[software]}>
+  <section class="hero">
+    <div class="wrap split">
+      <div>
+        <span class="eyebrow">A product of {COMPANY.name}</span>
+        <h1>{name}</h1>
+        <p class="lead">{tagline}. {summary}</p>
+        <div class="actions">
+          <a class="btn primary" href={url} rel="noopener">Visit {name} ↗</a>
+          <a class="btn ghost" href="/contact/">Ask for a demo</a>
+        </div>
+      </div>
+      {screens[0] && (
+        <figure class="shot">
+          <img src={screens[0].src} alt={screens[0].alt} width={screens[0].width} height={screens[0].height} />
+        </figure>
+      )}
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="wrap">
+      <h2>What it does</h2>
+      <p class="lead spaced">For {audience.charAt(0).toLowerCase() + audience.slice(1)}</p>
+      <div class="grid">
+        {highlights.map((h) => (
+          <div class="card">
+            <h3>{h.title}</h3>
+            <p>{h.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class={screens.length > 1 ? 'wrap split' : 'wrap'}>
+      {screens.length > 1 && (
+        <figure class="shot">
+          <img src={screens[1].src} alt={screens[1].alt} width={screens[1].width} height={screens[1].height} loading="lazy" />
+          <figcaption>{screens[1].alt}</figcaption>
+        </figure>
+      )}
+      <div class="prose"><Content /></div>
+    </div>
+  </section>
+
+  <section class="section tight">
+    <div class="wrap"><ContactBand title={`See ${name} for yourself`} text={`Visit its website, or call us for a demo.`} /></div>
+  </section>
+</Base>

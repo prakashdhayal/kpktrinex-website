@@ -1,0 +1,58 @@
+---
+import Base from '../layouts/Base.astro';
+import { ADDRESS, COMPANY, CONTACT } from '../data/company';
+
+const updated = '18 November 2026';
+---
+
+<Base title="Terms of use" description={`The terms for using the website of ${COMPANY.name}.`}>
+  <section class="page-head">
+    <div class="wrap">
+      <span class="eyebrow">Terms of use</span>
+      <h1>Terms of use</h1>
+      <p class="lead">Last updated {updated}.</p>
+    </div>
+  </section>
+
+  <section class="section tight">
+    <div class="wrap prose">
+      <p>
+        This website is published by {COMPANY.name} (Udyam Registration No. {COMPANY.udyam}), {ADDRESS.lines.join(', ')}.
+        By using it you agree to these terms.
+      </p>
+
+      <h2>What the website is for</h2>
+      <p>
+        It tells you about our company, our products and the work we have done for clients. It is information, not an offer:
+        every product and every project is supplied under its own agreement or quote, which is what applies to it.
+      </p>
+
+      <h2>Our products</h2>
+      <p>Each product has its own website, terms and privacy policy, which apply when you use it.</p>
+
+      <h2>Work shown for clients</h2>
+      <p>
+        Client websites and software are shown with the clients' agreement. Each belongs to its client and is run under that
+        client's own terms; links to them leave this website.
+      </p>
+
+      <h2>Content and names</h2>
+      <p>
+        The text, pictures and logos on this website belong to {COMPANY.name} or to the clients whose work is shown. You may
+        link to our pages and share them; please do not copy them for your own use, pass them off as yours, or try to break or
+        overload the website.
+      </p>
+
+      <h2>Accuracy</h2>
+      <p>We keep this website correct and up to date, but things change; if something here is wrong, please tell us.</p>
+
+      <h2>Law</h2>
+      <p>These terms are governed by the laws of India, and the courts of Rajasthan have jurisdiction.</p>
+
+      <h2>Contact</h2>
+      <p>
+        Email <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a> or call <a href={CONTACT.phoneHref}>{CONTACT.phone}</a>.
+      </p>
+    </div>
+  </section>
+</Base>

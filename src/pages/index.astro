@@ -1,0 +1,83 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import ProductRow from '../components/ProductRow.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import ContactBand from '../components/ContactBand.astro';
+import { COMPANY } from '../data/company';
+
+const products = (await getCollection('products')).sort((a, b) => a.data.order - b.data.order);
+const projects = (await getCollection('projects')).sort((a, b) => b.data.delivered.valueOf() - a.data.delivered.valueOf()).slice(0, 3);
+---
+
+<Base
+  title="Home"
+  description={`${COMPANY.name} is a software company in Rajasthan, India. We make our own products - starting with KPK Schools, school management software - and build websites and software for clients.`}
+>
+  <section class="hero">
+    <div class="wrap">
+      <span class="eyebrow">Software company · Rajasthan, India</span>
+      <h1>Software that does the everyday work, built and run with care.</h1>
+      <p class="lead">
+        {COMPANY.name} makes its own products - starting with KPK Schools, the school management software private schools
+        in Rajasthan run on every day - and builds websites and software for clients.
+      </p>
+      <div class="actions">
+        <a class="btn primary" href="/products/">See our products</a>
+        <a class="btn ghost" href="/contact/">Talk to us</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section tight">
+    <div class="wrap pillars">
+      <div>
+        <h3>We build</h3>
+        <p>Websites and software made to fit how a client actually works - not a template stretched to fit.</p>
+      </div>
+      <div>
+        <h3>We run</h3>
+        <p>We host, support and maintain what we make, so it keeps working after the launch day.</p>
+      </div>
+      <div>
+        <h3>We evolve</h3>
+        <p>Our products change with what their users tell us - KPK Schools is improved round after round from schools' feedback.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="wrap">
+      <div class="head-row">
+        <h2>Our products</h2>
+        <a href="/products/">All products</a>
+      </div>
+      {products.map((p) => <ProductRow product={p} />)}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="head-row">
+        <h2>Work for clients</h2>
+        {projects.length > 0 && <a href="/work/">All work</a>}
+      </div>
+      {projects.length > 0 ? (
+        <div class="grid">{projects.map((p) => <ProjectCard project={p} />)}</div>
+      ) : (
+        <div class="empty">
+          <p>
+            Our first client websites are being built now. Each one will be shown here, with a link to it, once it is live
+            and the client agrees.
+          </p>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <section class="section tight">
+    <div class="wrap">
+      <ContactBand />
+    </div>
+  </section>
+</Base>

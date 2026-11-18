@@ -1,0 +1,56 @@
+---
+import { getCollection, render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import ContactBand from '../../components/ContactBand.astro';
+
+export async function getStaticPaths() {
+  return (await getCollection('projects')).map((project) => ({ params: { id: project.id }, props: { project } }));
+}
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+}
+
+const { project } = Astro.props;
+const { client, title, summary, url, kind, delivered, place, built, image } = project.data;
+const { Content } = await render(project);
+const deliveredOn = delivered.toLocaleDateString('en-IN', { month: 'long', year: 'numeric' });
+---
+
+<Base title={`${title} for ${client}`} description={`${title} for ${client}: ${summary}`}>
+  <section class="page-head">
+    <div class="wrap">
+      <span class="eyebrow">{kind}</span>
+      <h1>{title}</h1>
+      <p class="lead">{summary}</p>
+      <div class="actions">
+        <a class="btn primary" href={url} rel="noopener">Visit the {kind.toLowerCase()} ↗</a>
+        <a class="btn ghost" href="/work/">All work</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section tight">
+    <div class="wrap split">
+      <div>
+        <dl class="facts">
+          <div><dt>Client</dt><dd>{client}</dd></div>
+          {place && <div><dt>Where</dt><dd>{place}</dd></div>}
+          <div><dt>Delivered</dt><dd>{deliveredOn}</dd></div>
+          {built.length > 0 && <div><dt>What we built</dt><dd>{built.join(' · ')}</dd></div>}
+        </dl>
+        <div class="prose"><Content /></div>
+      </div>
+      {image && (
+        <figure class="shot">
+          <img src={image.src} alt={image.alt} width={image.width} height={image.height} />
+        </figure>
+      )}
+    </div>
+  </section>
+
+  <section class="section tight">
+    <div class="wrap"><ContactBand title="Want something like this?" /></div>
+  </section>
+</Base>

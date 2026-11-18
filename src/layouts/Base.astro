@@ -1,0 +1,134 @@
+---
+/**
+ * Every page: its title and description, the canonical address and share card, the company's structured data, the
+ * header (a menu that opens without JavaScript on a phone) and the footer with the registered name, address and Udyam
+ * number - the same on every page, as Meta and search engines check them.
+ */
+import '../styles/global.css';
+import { ADDRESS, COMPANY, CONTACT, NAV } from '../data/company';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Extra structured data for this page (a product, a breadcrumb). */
+  jsonLd?: Record<string, unknown>[];
+}
+
+const { title, description, jsonLd = [] } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const fullTitle = Astro.url.pathname === '/' ? `${COMPANY.name} - ${COMPANY.slogan}` : `${title} | ${COMPANY.name}`;
+const path = Astro.url.pathname;
+const isCurrent = (href: string) => path === href || (href !== '/' && path.startsWith(href));
+
+const organisation = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  '@id': `${COMPANY.site}/#organization`,
+  name: COMPANY.name,
+  legalName: COMPANY.legalName,
+  slogan: COMPANY.slogan,
+  url: COMPANY.site,
+  logo: `${COMPANY.site}/brand/kpk-trinex-logo.png`,
+  email: CONTACT.email,
+  telephone: CONTACT.phone,
+  foundingDate: COMPANY.businessSince,
+  founder: { '@type': 'Person', name: COMPANY.founder },
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: ADDRESS.street,
+    addressLocality: ADDRESS.locality,
+    addressRegion: ADDRESS.region,
+    postalCode: ADDRESS.postalCode,
+    addressCountry: ADDRESS.country,
+  },
+  identifier: { '@type': 'PropertyValue', propertyID: 'Udyam Registration Number', value: COMPANY.udyam },
+};
+const year = new Date().getFullYear();
+---
+
+<!doctype html>
+<html lang="en-IN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="preload" href="/fonts/work-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <meta name="theme-color" content="#0b1f44" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={COMPANY.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={`${COMPANY.site}/brand/kpk-trinex-logo.png`} />
+    <meta name="twitter:card" content="summary" />
+    <script type="application/ld+json" set:html={JSON.stringify(organisation)} />
+    {jsonLd.map((data) => <script type="application/ld+json" set:html={JSON.stringify(data)} />)}
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to the content</a>
+    <header class="top">
+      <div class="wrap">
+        <a class="brand" href="/" aria-label={`${COMPANY.name} - home`}>
+          <img src="/favicon.svg" alt="" width="38" height="38" />
+          <span class="wordmark"><strong>KPK</strong> Trinex Technologies</span>
+        </a>
+        <nav class="nav wide" aria-label="Main">
+          {NAV.map((item) => <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>{item.label}</a>)}
+        </nav>
+        <details class="menu">
+          <summary aria-label="Menu">Menu</summary>
+          <nav class="nav" aria-label="Menu">
+            <a href="/" aria-current={path === '/' ? 'page' : undefined}>Home</a>
+            {NAV.map((item) => <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>{item.label}</a>)}
+          </nav>
+        </details>
+      </div>
+    </header>
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <footer class="foot">
+      <div class="wrap">
+        <div class="cols">
+          <div>
+            <span class="mark"><img src="/favicon.svg" alt="" width="30" height="30" /></span>
+            <p class="name">{COMPANY.name}</p>
+            <p class="slogan">{COMPANY.slogan}</p>
+            <address>
+              {ADDRESS.lines.map((line) => <>{line}<br /></>)}
+            </address>
+          </div>
+          <div>
+            <h2>Company</h2>
+            <ul>
+              <li><a href="/products/">Products</a></li>
+              <li><a href="/work/">Work</a></li>
+              <li><a href="/about/">About</a></li>
+              <li><a href="/contact/">Contact</a></li>
+            </ul>
+          </div>
+          <div>
+            <h2>Contact</h2>
+            <ul>
+              <li><a href={CONTACT.phoneHref}>{CONTACT.phone}</a></li>
+              <li><a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a></li>
+              <li><a href={CONTACT.whatsapp} rel="noopener">WhatsApp</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="legal">
+          <span>© {year} {COMPANY.name} · Udyam Registration No. {COMPANY.udyam}</span>
+          <span><a href="/privacy-policy/">Privacy policy</a> · <a href="/terms/">Terms of use</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

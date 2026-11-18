@@ -1,0 +1,55 @@
+---
+import Base from '../layouts/Base.astro';
+import { ADDRESS, COMPANY, CONTACT } from '../data/company';
+
+const contactPage = {
+  '@context': 'https://schema.org',
+  '@type': 'ContactPage',
+  name: `Contact ${COMPANY.name}`,
+  url: `${COMPANY.site}/contact/`,
+  about: { '@id': `${COMPANY.site}/#organization` },
+};
+---
+
+<Base title="Contact" description={`Contact ${COMPANY.name}: phone ${CONTACT.phone}, WhatsApp, email ${CONTACT.email}. Registered office in ${ADDRESS.short}.`} jsonLd={[contactPage]}>
+  <section class="page-head">
+    <div class="wrap">
+      <span class="eyebrow">Contact</span>
+      <h1>Talk to us</h1>
+      <p class="lead">A new website, software for your work, or a question about one of our products - call, message or write to us.</p>
+    </div>
+  </section>
+
+  <section class="section tight">
+    <div class="wrap grid">
+      <div class="card">
+        <h2 class="card-title">Phone</h2>
+        <p><a href={CONTACT.phoneHref}>{CONTACT.phone}</a></p>
+      </div>
+      <div class="card">
+        <h2 class="card-title">WhatsApp</h2>
+        <p><a href={CONTACT.whatsapp} rel="noopener">Message us on WhatsApp</a></p>
+      </div>
+      <div class="card">
+        <h2 class="card-title">Email</h2>
+        <p><a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a></p>
+      </div>
+      <div class="card">
+        <h2 class="card-title">Registered office</h2>
+        <address class="plain">
+          {COMPANY.name}<br />
+          {ADDRESS.lines.map((line) => <>{line}<br /></>)}
+        </address>
+      </div>
+    </div>
+  </section>
+
+  <section class="section tight">
+    <div class="wrap prose">
+      <p>
+        <strong>Using KPK Schools?</strong> Your school's questions go to the same phone and WhatsApp. The
+        <a href="/products/kpk-schools/">KPK Schools</a> page links to its own website and policies.
+      </p>
+    </div>
+  </section>
+</Base>

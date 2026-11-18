@@ -1,0 +1,29 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import ContactBand from '../../components/ContactBand.astro';
+import ProductRow from '../../components/ProductRow.astro';
+import { COMPANY } from '../../data/company';
+
+const products = (await getCollection('products')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<Base title="Products" description={`The products ${COMPANY.name} makes and runs: ${products.map((p) => p.data.name).join(', ')}.`}>
+  <section class="page-head">
+    <div class="wrap">
+      <span class="eyebrow">Products</span>
+      <h1>What we make and run</h1>
+      <p class="lead">Software we build, host and keep improving ourselves. Each product has its own website, where you can see it and ask for a demo.</p>
+    </div>
+  </section>
+
+  <section class="section tight">
+    <div class="wrap">
+      {products.map((p) => <ProductRow product={p} />)}
+    </div>
+  </section>
+
+  <section class="section tight">
+    <div class="wrap"><ContactBand title="Want to see a product?" text="Call or message us and we'll show it to you." /></div>
+  </section>
+</Base>

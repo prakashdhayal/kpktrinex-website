@@ -1,0 +1,19 @@
+---
+/** A client project in a list: its picture, the client, what was built, and a link to the project's page. */
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+}
+
+const { project } = Astro.props;
+const { client, title, summary, kind, image } = project.data;
+---
+
+<article class="card">
+  {image && <img class="shot" src={image.src} alt={image.alt} width={image.width} height={image.height} loading="lazy" />}
+  <span class="pill">{kind}</span>
+  <h3>{title}</h3>
+  <p><strong>{client}</strong> - {summary}</p>
+  <a class="more" href={`/work/${project.id}/`}>See the project →</a>
+</article>

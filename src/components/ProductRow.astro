@@ -1,0 +1,28 @@
+---
+/** A product in a list: what it is beside its screenshot, with its page and its own website one tap away. */
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  product: CollectionEntry<'products'>;
+}
+
+const { product } = Astro.props;
+const { name, tagline, summary, url, screens } = product.data;
+---
+
+<article class="product-row">
+  <div>
+    <span class="pill">Product</span>
+    <h3>{name}</h3>
+    <p>{tagline}. {summary}</p>
+    <div class="actions">
+      <a class="btn primary" href={`/products/${product.id}/`}>About {name}</a>
+      <a class="btn ghost" href={url} rel="noopener">Visit the website ↗</a>
+    </div>
+  </div>
+  {screens[0] && (
+    <figure class="shot">
+      <img src={screens[0].src} alt={screens[0].alt} width={screens[0].width} height={screens[0].height} loading="lazy" />
+    </figure>
+  )}
+</article>

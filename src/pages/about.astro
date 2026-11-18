@@ -1,0 +1,48 @@
+---
+import Base from '../layouts/Base.astro';
+import ContactBand from '../components/ContactBand.astro';
+import { ADDRESS, COMPANY } from '../data/company';
+---
+
+<Base title="About" description={`About ${COMPANY.name}: a registered micro enterprise in Rajasthan, India, that builds and runs software - its own products and work for clients.`}>
+  <section class="page-head">
+    <div class="wrap">
+      <span class="eyebrow">About</span>
+      <h1>A small software company from Rajasthan</h1>
+      <p class="lead">
+        {COMPANY.name} builds software and keeps it running. We make our own products, starting with KPK Schools, and we
+        build websites and software for clients. "{COMPANY.slogan}"
+      </p>
+    </div>
+  </section>
+
+  <section class="section tight">
+    <div class="wrap split">
+      <div class="prose">
+        <h2>What we do</h2>
+        <ul>
+          <li><strong>Our own products.</strong> Software we write, publish and run ourselves - <a href="/products/kpk-schools/">KPK Schools</a> is the first.</li>
+          <li><strong>Software for clients.</strong> Websites and programs written, changed and tested to meet a client's own needs.</li>
+          <li><strong>Support and maintenance.</strong> We look after what we have built: hosting, fixes and changes as needs grow.</li>
+        </ul>
+        <h2>How we work</h2>
+        <p>
+          We say only what is true about what we make. We keep our clients' and users' data in India where we can, ask before
+          showing anyone's work, and stay reachable by phone and WhatsApp.
+        </p>
+      </div>
+      <dl class="facts">
+        <div><dt>Name of the enterprise</dt><dd>{COMPANY.legalName}</dd></div>
+        <div><dt>Udyam Registration No.</dt><dd>{COMPANY.udyam}</dd></div>
+        <div><dt>Type</dt><dd>{COMPANY.enterprise}</dd></div>
+        <div><dt>In business since</dt><dd>1 September 2026</dd></div>
+        <div><dt>Founder</dt><dd>{COMPANY.founder}</dd></div>
+        <div><dt>Registered office</dt><dd>{ADDRESS.lines.join(', ')}</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="section tight">
+    <div class="wrap"><ContactBand title="Let's talk" text="Call us, or send a message on WhatsApp." /></div>
+  </section>
+</Base>
