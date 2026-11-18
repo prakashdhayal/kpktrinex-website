@@ -4,7 +4,7 @@ tagline: School management software for private schools in Rajasthan
 summary: Admissions, student attendance, fees and receipts, exams and marksheets, staff attendance and payroll, certificates, hostel and transport - in one web app that works on any phone, tablet or computer.
 seoTitle: "KPK Schools: School ERP for Rajasthan | KPK Trinex Technologies"
 seoDescription: "KPK Schools is school management software for Rajasthan's private schools: admissions, attendance, fees and receipts, exams, payroll and certificates."
-url: https://d26dewdtyxjf6q.cloudfront.net/
+url: https://schools.kpktrinextechnologies.in/
 shareImage: /products/kpk-schools/og-card.jpg
 order: 1
 audience: Private schools in Rajasthan, Hindi- and English-medium, from pre-primary to senior secondary.
