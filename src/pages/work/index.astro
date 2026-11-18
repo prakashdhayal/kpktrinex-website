@@ -8,7 +8,12 @@ import { COMPANY } from '../../data/company';
 const projects = (await getCollection('projects')).sort((a, b) => b.data.delivered.valueOf() - a.data.delivered.valueOf());
 ---
 
-<Base title="Work" description={`Websites and software ${COMPANY.name} has built and delivered for clients, each with a link to it.`}>
+<Base
+  title="Work"
+  pageType="CollectionPage"
+  crumbs={[{ name: 'Work', href: '/work/' }]}
+  description={`Websites and software ${COMPANY.name} has built and delivered for clients in Rajasthan and beyond - each shown with the client's agreement and a link to it.`}
+>
   <section class="page-head">
     <div class="wrap">
       <span class="eyebrow">Work</span>

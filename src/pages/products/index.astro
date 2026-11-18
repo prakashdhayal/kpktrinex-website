@@ -6,9 +6,21 @@ import ProductRow from '../../components/ProductRow.astro';
 import { COMPANY } from '../../data/company';
 
 const products = (await getCollection('products')).sort((a, b) => a.data.order - b.data.order);
+const list = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: `Products of ${COMPANY.name}`,
+  itemListElement: products.map((p, i) => ({ '@type': 'ListItem', position: i + 1, name: p.data.name, url: `${COMPANY.site}/products/${p.id}/` })),
+};
 ---
 
-<Base title="Products" description={`The products ${COMPANY.name} makes and runs: ${products.map((p) => p.data.name).join(', ')}.`}>
+<Base
+  title="Products"
+  pageType="CollectionPage"
+  crumbs={[{ name: 'Products', href: '/products/' }]}
+  description={`Software products made and run by ${COMPANY.name}, Rajasthan: ${products.map((p) => `${p.data.name}, ${p.data.tagline.toLowerCase()}`).join('; ')}.`}
+  jsonLd={[list]}
+>
   <section class="page-head">
     <div class="wrap">
       <span class="eyebrow">Products</span>
@@ -19,7 +31,7 @@ const products = (await getCollection('products')).sort((a, b) => a.data.order -
 
   <section class="section tight">
     <div class="wrap">
-      {products.map((p) => <ProductRow product={p} />)}
+      {products.map((p) => <ProductRow product={p} level={2} />)}
     </div>
   </section>
 

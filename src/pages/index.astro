@@ -12,12 +12,13 @@ const projects = (await getCollection('projects')).sort((a, b) => b.data.deliver
 
 <Base
   title="Home"
-  description={`${COMPANY.name} is a software company in Rajasthan, India. We make our own products - starting with KPK Schools, school management software - and build websites and software for clients.`}
+  fullTitle={`${COMPANY.name} | Software & Websites, Rajasthan`}
+  description={`${COMPANY.name} is a software company in Rajasthan, India. We make our own products, like KPK Schools, and build websites and software for clients.`}
 >
   <section class="hero">
     <div class="wrap">
       <span class="eyebrow">Software company · Rajasthan, India</span>
-      <h1>Software that does the everyday work, built and run with care.</h1>
+      <h1>Software and websites, built and run with care.</h1>
       <p class="lead">
         {COMPANY.name} makes its own products - starting with KPK Schools, the school management software private schools
         in Rajasthan run on every day - and builds websites and software for clients.
@@ -29,7 +30,8 @@ const projects = (await getCollection('projects')).sort((a, b) => b.data.deliver
     </div>
   </section>
 
-  <section class="section tight">
+  <section class="section tight" aria-labelledby="how-we-work">
+    <h2 id="how-we-work" class="sr-only">How we work</h2>
     <div class="wrap pillars">
       <div>
         <h3>We build</h3>

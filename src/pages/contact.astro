@@ -1,17 +1,15 @@
 ---
 import Base from '../layouts/Base.astro';
+import ExternalLink from '../components/ExternalLink.astro';
 import { ADDRESS, COMPANY, CONTACT } from '../data/company';
-
-const contactPage = {
-  '@context': 'https://schema.org',
-  '@type': 'ContactPage',
-  name: `Contact ${COMPANY.name}`,
-  url: `${COMPANY.site}/contact/`,
-  about: { '@id': `${COMPANY.site}/#organization` },
-};
 ---
 
-<Base title="Contact" description={`Contact ${COMPANY.name}: phone ${CONTACT.phone}, WhatsApp, email ${CONTACT.email}. Registered office in ${ADDRESS.short}.`} jsonLd={[contactPage]}>
+<Base
+  title="Contact"
+  pageType="ContactPage"
+  crumbs={[{ name: 'Contact', href: '/contact/' }]}
+  description={`Call ${CONTACT.phone}, message us on WhatsApp or email ${CONTACT.email}. ${COMPANY.name}, ${ADDRESS.short}.`}
+>
   <section class="page-head">
     <div class="wrap">
       <span class="eyebrow">Contact</span>
@@ -28,7 +26,7 @@ const contactPage = {
       </div>
       <div class="card">
         <h2 class="card-title">WhatsApp</h2>
-        <p><a href={CONTACT.whatsapp} rel="noopener">Message us on WhatsApp</a></p>
+        <p><ExternalLink href={CONTACT.whatsapp}>Message us on WhatsApp</ExternalLink></p>
       </div>
       <div class="card">
         <h2 class="card-title">Email</h2>

@@ -1,6 +1,7 @@
 ---
 /** The closing band on a page: how to reach us - a call, WhatsApp or the contact page. */
 import { CONTACT } from '../data/company';
+import ExternalLink from './ExternalLink.astro';
 
 interface Props {
   title?: string;
@@ -16,7 +17,7 @@ const { title = 'Have something to build?', text = 'Tell us what you need. Call 
     <p>{text}</p>
   </div>
   <div class="actions">
-    <a class="btn primary" href={CONTACT.whatsapp} rel="noopener">WhatsApp us</a>
+    <ExternalLink class="btn primary" href={CONTACT.whatsapp} arrow={false}>WhatsApp us</ExternalLink>
     <a class="btn ghost" href={CONTACT.phoneHref}>Call {CONTACT.phone}</a>
   </div>
 </div>

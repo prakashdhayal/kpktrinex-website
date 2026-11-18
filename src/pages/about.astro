@@ -4,7 +4,12 @@ import ContactBand from '../components/ContactBand.astro';
 import { ADDRESS, COMPANY } from '../data/company';
 ---
 
-<Base title="About" description={`About ${COMPANY.name}: a registered micro enterprise in Rajasthan, India, that builds and runs software - its own products and work for clients.`}>
+<Base
+  title="About"
+  pageType="AboutPage"
+  crumbs={[{ name: 'About', href: '/about/' }]}
+  description={`About ${COMPANY.name}: a registered micro enterprise in Parbatsar, Rajasthan, that builds and runs software - its own products and work for clients.`}
+>
   <section class="page-head">
     <div class="wrap">
       <span class="eyebrow">About</span>

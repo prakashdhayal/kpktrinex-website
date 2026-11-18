@@ -151,6 +151,19 @@ p {
   padding-inline: var(--gutter);
 }
 
+/* words only screen readers read: a link's "(opens in a new tab)", a section's heading */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .skip {
   position: absolute;
   left: -999px;
@@ -255,11 +268,125 @@ p {
 .menu summary {
   list-style: none;
   cursor: pointer;
-  padding: 8px 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 8px 14px;
   border: 1px solid var(--line);
   border-radius: 10px;
   font-weight: 600;
   color: var(--navy);
+  user-select: none;
+}
+
+/* three lines, a cross while open */
+.burger,
+.burger::before,
+.burger::after {
+  display: block;
+  width: 16px;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.burger {
+  position: relative;
+}
+
+.burger::before,
+.burger::after {
+  content: '';
+  position: absolute;
+  left: 0;
+}
+
+.burger::before {
+  top: -5px;
+}
+
+.burger::after {
+  top: 5px;
+}
+
+.menu[open] .burger {
+  background: transparent;
+}
+
+.menu[open] .burger::before {
+  transform: translateY(5px) rotate(45deg);
+}
+
+.menu[open] .burger::after {
+  transform: translateY(-5px) rotate(-45deg);
+}
+
+.menu .nav a {
+  padding: 12px 14px;
+  min-height: 44px;
+}
+
+.menu .menu-call {
+  margin-top: 6px;
+  border-top: 1px solid var(--line);
+  border-radius: 0 0 8px 8px;
+  color: var(--blue-ink);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .burger,
+  .burger::before,
+  .burger::after {
+    transition: none;
+  }
+}
+
+/* ---- breadcrumbs ---- */
+
+.crumbs {
+  font-size: 0.88rem;
+  padding-top: 16px;
+}
+
+.crumbs ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px 6px;
+  color: var(--muted);
+}
+
+.crumbs li + li::before {
+  content: '/';
+  margin-right: 6px;
+  color: var(--line);
+}
+
+.crumbs a {
+  display: inline-block;
+  padding: 6px 2px;
+  color: var(--muted);
+}
+
+.crumbs a:hover {
+  color: var(--navy);
+}
+
+.crumbs [aria-current] {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.crumbs + main .page-head,
+.crumbs + main .hero {
+  padding-top: 24px;
 }
 
 .menu summary::-webkit-details-marker {
@@ -294,12 +421,46 @@ p {
   }
 }
 
+/* the narrowest phones: the menu button is its icon alone, so the name keeps its room */
+@media (max-width: 420px) {
+  .menu-word {
+    display: none;
+  }
+
+  .menu summary {
+    width: 44px;
+    justify-content: center;
+    padding: 8px;
+  }
+
+  .brand {
+    gap: 8px;
+  }
+
+  .brand img {
+    width: 34px;
+    height: 34px;
+  }
+}
+
+@media (max-width: 359px) {
+  :root {
+    --gutter: 16px;
+  }
+
+  .wordmark {
+    font-size: 0.92rem;
+  }
+}
+
 /* ---- buttons ---- */
 
 .btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
+  min-height: 44px;
   padding: 12px 20px;
   border-radius: 999px;
   font-weight: 600;
@@ -372,6 +533,13 @@ p {
 
 .head-row h2 {
   margin: 0;
+}
+
+.head-row a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-weight: 600;
 }
 
 .grid {
@@ -465,6 +633,10 @@ p {
   .split {
     grid-template-columns: minmax(0, 1fr);
   }
+}
+
+.shot img {
+  width: 100%;
 }
 
 .shot {
@@ -630,7 +802,12 @@ figure {
   padding: 0;
   margin: 0;
   display: grid;
-  gap: 6px;
+  gap: 2px;
+}
+
+.foot li a {
+  display: inline-block;
+  padding: 6px 0;
 }
 
 /* the mark on a white tile: its navy stroke disappears on the navy footer */
@@ -660,7 +837,7 @@ figure {
   margin-top: 24px;
 }
 
-.product-row h3 {
+.product-row .product-name {
   font-size: 1.6rem;
   margin: 8px 0;
 }

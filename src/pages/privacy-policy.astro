@@ -1,11 +1,16 @@
 ---
 import Base from '../layouts/Base.astro';
+import ExternalLink from '../components/ExternalLink.astro';
 import { ADDRESS, COMPANY, CONTACT } from '../data/company';
 
 const updated = '18 November 2026';
 ---
 
-<Base title="Privacy policy" description={`How ${COMPANY.name} handles personal information on this website and when you contact us.`}>
+<Base
+  title="Privacy policy"
+  crumbs={[{ name: 'Privacy policy', href: '/privacy-policy/' }]}
+  description={`How ${COMPANY.name} handles personal information: no cookies or tracking on this website, what we do with your messages, and your rights.`}
+>
   <section class="page-head">
     <div class="wrap">
       <span class="eyebrow">Privacy policy</span>
@@ -18,7 +23,7 @@ const updated = '18 November 2026';
     <div class="wrap prose">
       <p>
         This policy is for the website of {COMPANY.name} (Udyam Registration No. {COMPANY.udyam}), {ADDRESS.lines.join(', ')}
-        ("we", "us"), at <a href={COMPANY.site}>{COMPANY.site.replace('https://', '')}</a>. Our products have their own
+        ("we", "us"), at <a href="/">{COMPANY.site.replace('https://', '')}</a>. Our products have their own
         privacy policies on their own websites - for example <a href="/products/kpk-schools/">KPK Schools</a>.
       </p>
 
@@ -28,7 +33,7 @@ const updated = '18 November 2026';
         <li>
           <strong>Technical details any website receives.</strong> The website is hosted by GitHub Pages (GitHub, Inc.). To
           deliver the pages and keep the service secure, GitHub receives what every browser sends - such as the IP address,
-          the browser type and the page asked for - under <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" rel="noopener">GitHub's privacy statement</a>.
+          the browser type and the page asked for - under <ExternalLink href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub's privacy statement</ExternalLink>.
           We do not receive these details or use them to identify anyone.
         </li>
         <li><strong>Typefaces and pictures</strong> are served from this website itself; no other company is contacted when a page loads.</li>
