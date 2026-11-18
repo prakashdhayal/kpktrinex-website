@@ -1,8 +1,10 @@
 ---
+import { Picture } from 'astro:assets';
 import { getCollection, render } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import ContactBand from '../../components/ContactBand.astro';
+import ExternalLink from '../../components/ExternalLink.astro';
 
 export async function getStaticPaths() {
   return (await getCollection('projects')).map((project) => ({ params: { id: project.id }, props: { project } }));
@@ -18,14 +20,18 @@ const { Content } = await render(project);
 const deliveredOn = delivered.toLocaleDateString('en-IN', { month: 'long', year: 'numeric' });
 ---
 
-<Base title={`${title} for ${client}`} description={`${title} for ${client}: ${summary}`}>
+<Base
+  title={`${title} for ${client}`}
+  description={`${title} for ${client}: ${summary}`.slice(0, 160)}
+  crumbs={[{ name: 'Work', href: '/work/' }, { name: client, href: `/work/${project.id}/` }]}
+>
   <section class="page-head">
     <div class="wrap">
       <span class="eyebrow">{kind}</span>
       <h1>{title}</h1>
       <p class="lead">{summary}</p>
       <div class="actions">
-        <a class="btn primary" href={url} rel="noopener">Visit the {kind.toLowerCase()} ↗</a>
+        <ExternalLink class="btn primary" href={url}>Visit the {kind.toLowerCase()}</ExternalLink>
         <a class="btn ghost" href="/work/">All work</a>
       </div>
     </div>
@@ -44,7 +50,8 @@ const deliveredOn = delivered.toLocaleDateString('en-IN', { month: 'long', year:
       </div>
       {image && (
         <figure class="shot">
-          <img src={image.src} alt={image.alt} width={image.width} height={image.height} />
+          <Picture src={image.src} alt={image.alt} formats={['avif', 'webp']} fallbackFormat="webp" widths={[480, 760, 1100]}
+            sizes="(max-width: 860px) calc(100vw - 40px), 540px" loading="eager" fetchpriority="high" />
         </figure>
       )}
     </div>

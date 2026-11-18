@@ -1,5 +1,6 @@
 ---
 /** A client project in a list: its picture, the client, what was built, and a link to the project's page. */
+import { Picture } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 
 interface Props {
@@ -11,7 +12,10 @@ const { client, title, summary, kind, image } = project.data;
 ---
 
 <article class="card">
-  {image && <img class="shot" src={image.src} alt={image.alt} width={image.width} height={image.height} loading="lazy" />}
+  {image && (
+    <Picture class="shot" src={image.src} alt={image.alt} formats={['avif', 'webp']} fallbackFormat="webp" widths={[400, 700]}
+      sizes="(max-width: 700px) calc(100vw - 88px), 360px" loading="lazy" />
+  )}
   <span class="pill">{kind}</span>
   <h3>{title}</h3>
   <p><strong>{client}</strong> - {summary}</p>

@@ -1,28 +1,34 @@
 ---
-/** A product in a list: what it is beside its screenshot, with its page and its own website one tap away. */
+/** A product in a list: what it is beside its screenshot, with its page and its own website (a new tab) one tap away. */
+import { Picture } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
+import ExternalLink from './ExternalLink.astro';
 
 interface Props {
   product: CollectionEntry<'products'>;
+  /** The heading level in the page's outline: h2 on the Products page, h3 under the home page's "Our products". */
+  level?: 2 | 3;
 }
 
-const { product } = Astro.props;
+const { product, level = 3 } = Astro.props;
 const { name, tagline, summary, url, screens } = product.data;
+const Heading = `h${level}`;
 ---
 
 <article class="product-row">
   <div>
     <span class="pill">Product</span>
-    <h3>{name}</h3>
+    <Heading class="product-name">{name}</Heading>
     <p>{tagline}. {summary}</p>
     <div class="actions">
       <a class="btn primary" href={`/products/${product.id}/`}>About {name}</a>
-      <a class="btn ghost" href={url} rel="noopener">Visit the website ↗</a>
+      <ExternalLink class="btn ghost" href={url}>Visit the website</ExternalLink>
     </div>
   </div>
   {screens[0] && (
     <figure class="shot">
-      <img src={screens[0].src} alt={screens[0].alt} width={screens[0].width} height={screens[0].height} loading="lazy" />
+      <Picture src={screens[0].src} alt={screens[0].alt} formats={['avif', 'webp']} fallbackFormat="webp" widths={[480, 760, 1100]}
+        sizes="(max-width: 860px) calc(100vw - 80px), 560px" loading="lazy" />
     </figure>
   )}
 </article>
